@@ -33,6 +33,12 @@ Configure Redis connection in your Drupal settings.php
     $conf['redis_client_base'] = '';
     $conf['redis_client_password'] = NULL;
 
+Usage, support IDE autocomplete:
+
+    <?php
+    $redis = VcRedis::getClient();
+    $redis->mget($array);
+
 ### Function Callback Wrapper
 
 Support annotations.
