@@ -91,7 +91,7 @@ class VCKeyValue {
       ->condition('collection', $this->collection)
       ->condition('name', $key)
       ->execute();
-    return $result == Merge::STATUS_INSERT;
+    return $result == MergeQuery::STATUS_INSERT;
   }
 
   public function delete($key) {
