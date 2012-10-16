@@ -1,0 +1,5 @@
+vc_example:
+  title: VC Example
+  access arguments: ['access vc_example']
+  page callback: vc_example_page_callback
+  page arguments: ['This is argument 1']

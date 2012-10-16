@@ -29,7 +29,16 @@ function vc_autoload($class) {
       include_once $path;
     }
   }
-  # exit;
+}
+
+/**
+ * Implements hook_init().
+ */
+function vc_init() {
+  $lazy_hook =  drupal_realpath(VcLazyHook::DUMP_FILE);
+  if (file_exists($lazy_hook)) {
+    include_once $lazy_hook;
+  }
 }
 
 /**
@@ -70,4 +79,12 @@ function vc_ctools_plugin_api_hook_name() {
  */
 function vc_vc_api() {
   return array('version' => '1.0');
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function vc_flush_caches() {
+  $lazy = new VcLazyHook();
+  $lazy->buildHooks();
 }

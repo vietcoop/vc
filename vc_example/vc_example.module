@@ -15,7 +15,7 @@ function vc_example_vc_api() {
 /**
  * Try lazy loading.
  */
-function vc_example_test_lazy_load() {
+function vc_example_lazy_load() {
   $object = new VcExample();
   kpr($object->hello());
 
@@ -23,6 +23,13 @@ function vc_example_test_lazy_load() {
   kpr($object->hi());
 
   exit;
+}
+
+/**
+ * Callback for /vc_example.
+ */
+function vc_example_page_callback($a1 = 'A1') {
+  return $a1;
 }
 
 function vc_debug() {
