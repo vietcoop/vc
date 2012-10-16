@@ -55,11 +55,12 @@ Example configuration file in yaml format:
 
 Example Code:
 
-  // return bar
-  vc_conf('module_name.foo')->get();
+    <?php
+    // return bar
+    vc_conf('module_name.foo')->get();
 
-  // override configuration value
-  vc_conf('module_name.foo')->set('baz');
+    // override configuration value
+    vc_conf('module_name.foo')->set('baz');
 
-  // Restore default configuration value.
-  vc_conf('module_name._name')->restore();
+    // Restore default configuration value.
+    vc_conf('module_name._name')->restore();
