@@ -1,9 +1,25 @@
 ### Features
 
-- Lazy load.
-- Simple configuration system.
-- YAML configuration style for hooks: permission, menu, theme, views.
-- Auto run path/to/module/lib/Cron.php > {ModuleName}Cron->cron*().
+1. Lazy load.
+1. Simple configuration system.
+1. Simple KeyValue class.
+1. YAML configuration style for hooks: permission, menu, theme, views.
+1. Auto run path/to/module/lib/Cron.php > {ModuleName}Cron->cron*().
+
+### Lazy Load
+
+To use this feature. Your module need implementing hook_vc_api().
+Your class named `ModuleNameFoo`, vc will be loaded the file in
+`/path/to/module/lib/Foo.php`.
+
+### KeyValue class
+
+    <?php
+    $kv = new VCKeyValue($collection = 'my_collection');
+    $kv->set('foo', 'bar');
+    $kv->setMultiple(array('foo' => 'bar', 'baz' => 'foo'));
+    $kv->delete('foo');
+    $kv->deleteMultiple(array('foo', 'baz');
 
 ### Function Callback Wrapper
 
