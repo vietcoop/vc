@@ -49,9 +49,9 @@ Usage:
 
 Example configuration file in yaml format:
 
-  # module_name.yaml
-  foo: bar
-  baz: [foo, bar]
+    # path/to/module/conf/module_name.yaml
+    foo: bar
+    baz: [foo, bar]
 
 Example Code:
 
