@@ -4,6 +4,7 @@
  */
 
 class VcLazyHook {
+  const COLLECTION = 'vclazy';
   const DUMP_FILE = 'private://vc.lazyhooks.php';
   static $hooks = array('menu', 'permission', 'views_api');
 
@@ -55,12 +56,12 @@ class VcLazyHook {
   }
 
   protected function saveCode($hook, $module, $code) {
-    $kv = new VCKeyValue('vcLazy');
+    $kv = new VCKeyValue(COLLECTION);
     return $kv->set("{$module}.{$hook}", $code);
   }
 
   protected function writeCode() {
-    $kv = new VCKeyValue('vcLazy');
+    $kv = new VCKeyValue(self::COLLECTION);
     $code = $kv->getAll();
 
     $code = implode("\n\n", $code);
