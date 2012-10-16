@@ -3,4 +3,5 @@ version = 7.x-1.0-alpha1
 description = Provide tools for modules.
 core = 7.x
 package = Viet Coop
+
 dependencies[] = ctools

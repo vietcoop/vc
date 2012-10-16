@@ -6,7 +6,7 @@
 class VcLazyHook {
   const COLLECTION = 'vclazy';
   const DUMP_FILE = 'private://vc.lazyhooks.php';
-  static $hooks = array('menu', 'permission', 'views_api');
+  static $hooks = array('entity_info', 'menu', 'permission', 'views_api');
 
   public function buildHooks() {
     $this->clearCode();
@@ -26,7 +26,7 @@ class VcLazyHook {
     // Clear code
     $kv = new VCKeyValue(COLLECTION);
     $kv->deleteAll();
-    
+
     // Remove dump file
     drupal_unlink(self::DUMP_FILE);
   }
