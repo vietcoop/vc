@@ -1,0 +1,19 @@
+<?php
+/**
+ * @file vietcoop.module
+ */
+
+/**
+ * Wrapper function to work with configuration value of a module.
+ * 
+ * @see README.txt > Configuration System
+ */
+function vc_conf() {
+  static $handler;
+
+  if (!$handler) {
+    $handler = new VietcoopConfig();
+  }
+
+  return $handler;
+}
