@@ -4,8 +4,37 @@
  */
 
 /**
+ * Register auto loader.
+ */
+spl_autoload_register('vc_autoload');
+
+/**
+ * Autoloader.
+ */
+function vc_autoload($class) {
+  foreach (vc_get_module_apis() as $module => $info) {
+    $_module = str_replace('_', ' ', $module);
+    $_module = ucwords($_module);
+    $_module = str_replace(' ', '', $_module);
+    $path  = DRUPAL_ROOT . '/' . drupal_get_path('module', $module) . '/lib/';
+
+    if ($_module === $class) {
+      $path .= "{$class}.php";
+    }
+    else {
+      $path .= substr($class, strlen($_module)) . '.php';
+    }
+
+    if (file_exists($path)) {
+      include_once $path;
+    }
+  }
+  # exit;
+}
+
+/**
  * Wrapper function to work with configuration value of a module.
- * 
+ *
  * @see README.txt > Configuration System
  */
 function vc_conf() {
@@ -16,4 +45,29 @@ function vc_conf() {
   }
 
   return $handler;
+}
+
+/**
+ * Get modules support vc.
+ */
+function vc_get_module_apis($api = 'vc', $reset = FALSE) {
+  if ($reset) {
+    $cache = &drupal_static('ctools_plugin_api_info');
+    if (isset($cache['vc'][$api])) {
+      unset($cache['vc'][$api]);
+    }
+  }
+  ctools_include('plugins');
+  return ctools_plugin_api_info('vc', $api, '1.0', '1.0');
+}
+
+function vc_ctools_plugin_api_hook_name() {
+  return 'vc_api';
+}
+
+/**
+ * Implements vc.module\hook_vc_api().
+ */
+function vc_vc_api() {
+  return array('version' => '1.0');
 }

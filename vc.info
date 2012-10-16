@@ -1,5 +1,6 @@
 name = VC
 version = 7.x-1.0-alpha1
-description = Provide helper tools for modules.
+description = Provide tools for modules.
 core = 7.x
 package = Viet Coop
+dependencies[] = ctools

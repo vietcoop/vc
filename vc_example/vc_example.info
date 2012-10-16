@@ -1,0 +1,5 @@
+name = VC Example
+version = 7.x-1.0-alpha1
+description = Demo for VC module API.
+core = 7.x
+dependencies[] = vc

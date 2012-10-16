@@ -1,0 +1,30 @@
+<?php
+/**
+ * @file vc_examples.module
+ *
+ * Example module for vc module.
+ */
+
+/**
+ * Implements hook_vc_api().
+ */
+function vc_example_vc_api() {
+  return array('api' => '1.0');
+}
+
+/**
+ * Try lazy loading.
+ */
+function vc_example_test_lazy_load() {
+  $object = new VcExample();
+  kpr($object->hello());
+
+  $object = new VcExampleLazy();
+  kpr($object->hi());
+
+  exit;
+}
+
+function vc_debug() {
+  # vc_example_test_lazy_load();
+}
