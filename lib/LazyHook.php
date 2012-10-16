@@ -9,6 +9,8 @@ class VcLazyHook {
   static $hooks = array('menu', 'permission', 'views_api');
 
   public function buildHooks() {
+    $this->clearCode();
+
     foreach (self::$hooks as $hook) {
       $this->buildHook($hook);
     }
@@ -18,6 +20,15 @@ class VcLazyHook {
         apc_compile_file($file);
       }
     }
+  }
+
+  protected function clearCode() {
+    // Clear code
+    $kv = new VCKeyValue(COLLECTION);
+    $kv->deleteAll();
+    
+    // Remove dump file
+    drupal_unlink(self::DUMP_FILE);
   }
 
   protected function buildHook($hook) {

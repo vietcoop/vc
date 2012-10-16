@@ -108,4 +108,9 @@ class VCKeyValue {
     }
     while (count($keys));
   }
+
+  public function deleteAll() {
+    $sql = 'DELETE FROM {' . db_escape_table($this->table) . '} WHERE collection = :collection';
+    db_query($sql, array(':collection' => $this->collection));
+  }
 }
