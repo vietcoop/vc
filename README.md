@@ -25,7 +25,8 @@ Your class named `ModuleNameFoo`, vc will be loaded the file in
 
 ### Redis wrapper
 
-Configure Redis connection in your Drupal settings.php
+Configure Redis connection in your Drupal settings.php (They are all optional,
+default values will be used).
 
     <?php
     $conf['redis_client_host'] = '127.0.0.1';
