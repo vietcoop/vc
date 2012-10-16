@@ -4,7 +4,8 @@
 1. Simple configuration system.
 1. Simple KeyValue class.
 1. YAML configuration style for hooks: permission, menu, theme, views.
-1. Auto run path/to/module/lib/Cron.php > {ModuleName}Cron->cron*().
+1. @TODO: Auto run path/to/module/lib/Cron.php > {ModuleName}Cron->cron*().
+1. @TODO: Callback wrapper, supports annotations.
 
 ### Lazy Load
 
