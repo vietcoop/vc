@@ -99,6 +99,17 @@ function vc_flush_caches() {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
 function langgo_lesson_debug() {
   $node = node_load(956);
   kpr($node);
