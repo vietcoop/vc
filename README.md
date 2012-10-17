@@ -1,9 +1,11 @@
 ### Features
 
 1. Lazy load.
-1. Simple configuration system.
 1. Simple KeyValue class.
-1. YAML configuration style for hooks: permission, menu, theme, views.
+1. Simple configuration system
+1. Lazy hooks:
+  1. Lazy for static hooks: permission, menu, theme, views, …
+  1. Lazy for dynamic hooks: cron, node_*, …
 1. Redis wrapper for PhpRedis.
 1. @TODO: Auto run path/to/module/lib/Cron.php > {ModuleName}Cron->cron*().
 1. @TODO: Callback wrapper, supports annotations.
@@ -27,6 +29,16 @@ Your class named `ModuleNameFoo`, vc will be loaded the file in
     $kv->delete('foo');
     $kv->deleteMultiple(array('foo', 'baz');
 
+### Lazy Hooks
+
+#### Lazy for static hooks: permission, menu, theme, views, …
+
+  …
+
+#### Lazy for dynamic hooks: cron, node_*, …
+
+  …
+
 ### Redis wrapper
 
 Configure Redis connection in your Drupal settings.php (They are all optional,
@@ -44,7 +56,7 @@ Usage, support IDE autocomplete:
     $redis = VcRedis::getClient();
     $redis->mget($array);
 
-### @TODO: Function Callback Wrapper
+### @TODO: Function Anotations
 
 Supported annotations:
 
