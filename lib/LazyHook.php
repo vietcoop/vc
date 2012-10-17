@@ -6,7 +6,16 @@
 class VcLazyHook {
   const COLLECTION = 'vclazy';
   const DUMP_FILE = 'private://vc.lazyhooks.php';
-  static $hooks = array('entity_info', 'menu', 'permission', 'theme', 'views_api');
+
+  /**
+   * Supported hooks.
+   *
+   * @var array
+   */
+  static $hooks = array(
+    'entity_info', 'filter_info', 'help', 'menu', 'permission', 'theme',
+    'views_api'
+  );
 
   public function buildHooks() {
     $this->clearCode();

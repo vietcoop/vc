@@ -22,7 +22,16 @@ function vc_autoload($class) {
       $path .= "{$class}.php";
     }
     else {
-      $path .= substr($class, strlen($_module)) . '.php';
+      // Find sub, remove module prefix.
+      if (strpos($class, '_') !== FALSE) {
+        $sub = explode('_', $class);
+        array_shift($sub);
+        $sub = implode('/', $sub);
+      }
+      else {
+        $sub = substr($class, strlen($_module));
+      }
+      $path .= "{$sub}.php";
     }
 
     if (file_exists($path)) {
@@ -87,4 +96,40 @@ function vc_vc_api() {
 function vc_flush_caches() {
   $lazy = new VcLazyHook();
   $lazy->buildHooks();
+}
+
+
+function langgo_lesson_debug() {
+  $node = node_load(956);
+  kpr($node);
+
+  $terms = '';
+
+  $content_fields = array('body');
+  foreach ($content_fields as $field) {
+    if (isset($node->{$field})) {
+      $field = reset($node->{$field});
+      $field = reset($field);
+      $field = isset($field['safe_value']) ? $field['safe_value'] : $field['value'];
+
+      // error with strip_tags with <br><p> tag. Example: <p>ab</p><p><p>cd</p>
+      // Output:abcd. Correct result should be: ab cd
+      $field = preg_replace('/<br[^>]*>/i',  "<br />\n", $field);
+      $field = preg_replace('/<p[^>]*>/i',   "\n<p>",    $field);
+      $field = preg_replace('/<\/p[^>]*>/i', "</p>\n",   $field);
+
+      $field = filter_xss($field);
+      $field = strip_tags($field);
+      $terms .= $field;
+    }
+  }
+
+  $terms = str_replace(array('&nbsp;', ':', '?', '…', '(', ')', ',', '.', '!', "\n"), ' ', $terms);
+  $terms = strtolower($terms);
+  while (strpos($terms, '  ') !== FALSE) {
+    $terms = str_replace('  ', ' ', $terms);
+  }
+
+  kpr($terms);
+  exit;
 }

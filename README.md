@@ -12,7 +12,11 @@
 
 To use this feature. Your module need implementing hook_vc_api().
 Your class named `ModuleNameFoo`, vc will be loaded the file in
-`/path/to/module/lib/Foo.php`.
+`/path/to/module_name/lib/Foo.php`.
+
+  - `ModuleName` -> `/path/to/module_name/lib/ModuleName.php`
+  - `ModuleNameFoo` -> `/path/to/module_name/lib/Foo.php`
+  - `ModuleName_Foo_Bar` -> `/path/to/module_name/lib/Foo/Bar.php`
 
 ### KeyValue class
 
