@@ -44,28 +44,46 @@ Usage, support IDE autocomplete:
     $redis = VcRedis::getClient();
     $redis->mget($array);
 
-### Function Callback Wrapper
+### @TODO: Function Callback Wrapper
 
-Support annotations.
+Supported annotations:
 
-Example, this your function is
+#### 1. Cache: …
 
     <?php
-
     /**
      * @cache($cid = __FUNCTION__, $bin = 'cache', $expire = '+ 30 minutes')
-     * @truncate_utf8().
-     * @trim().
+     */
+    function foo() {}
+
+#### 2. Queue: …
+
+    <?php
+    /**
+     * @queue($name = 'function_name', $data = 'function arguments')
+     */
+    function foo() {}
+
+#### 3. String functions: …
+
+    <?php
+    /**
+     * @filter_xss('%function results', $allowed_tags = array('a', 'strong'))
+     * @strip_tags('%function results', $allowed_tags = array('a', 'strong'))
+     * @truncate_utf8(…)
+     */
+    function foo() {}
+
+#### 4. Logging (watchdog)
+
+    <?php
+    /**
+     * @watchdog($type = '', $message, $variables = array(), $severity = WATCHDOG_NOTICE, $link = NULL).
      */
     function foo($a1, $a2) {
       $my_complex_result = '…';
       return $my_complex_result; // ' Hello  '
     }
-
-Usage:
-
-    <?php
-    $result = vc_wrapper('foo', $a1, $a2);
 
 ### Configuration System
 
