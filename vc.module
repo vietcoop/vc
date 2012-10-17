@@ -94,38 +94,15 @@ function vc_vc_api() {
  * Implements hook_flush_caches().
  */
 function vc_flush_caches() {
-  vc_lazyhook_execute('flush_caches');
+  VcLazyHook::execute('flush_caches');
 }
 
-/**
- *
- * @param type $hook
- */
-function vc_lazyhook_execute($hook) {
-  foreach (vc_get_module_apis() as $module => $info) {
-    $hook = str_replace('_', ' ', $hook);
-    $hook = ucwords($hook);
-    $hook = str_replace(' ', '', $hook);
 
-    $_module = str_replace('_', ' ', $module);
-    $_module = ucwords($_module);
-    $_module = str_replace(' ', '', $_module);
-    $class = "{$_module}_Core_{$hook}";
 
-    if (class_exists($class)) {
-      foreach (get_class_methods($class) as $method) {
-        if (strpos($method, 'action') === 0) {
-          $refl = new ReflectionMethod($class, $method);
-          if ($refl->isStatic()) {
-            call_user_func(array($class, $method));
-          }
-        }
-      }
-    }
 
-    // $path  = DRUPAL_ROOT . '/' . drupal_get_path('module', $module) . '/lib/';
-  }
-}
+
+
+
 
 
 

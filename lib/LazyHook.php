@@ -96,4 +96,34 @@ class VcLazyHook {
 
     return file_unmanaged_save_data($prefix . $code, self::DUMP_FILE, FILE_EXISTS_REPLACE);
   }
+
+  /**
+   * Execute the lazy hooks.
+   *
+   * @param string $hook
+   * @see vc_flush_caches().
+   */
+  public static function execute($hook) {
+    foreach (vc_get_module_apis() as $module => $info) {
+      $hook = str_replace('_', ' ', $hook);
+      $hook = ucwords($hook);
+      $hook = str_replace(' ', '', $hook);
+
+      $_module = str_replace('_', ' ', $module);
+      $_module = ucwords($_module);
+      $_module = str_replace(' ', '', $_module);
+      $class = "{$_module}_Core_{$hook}";
+
+      if (!class_exists($class)) continue;
+
+      foreach (get_class_methods($class) as $method) {
+        if (strpos($method, 'action') !== 0) continue;
+
+        $refl = new ReflectionMethod($class, $method);
+        if ($refl->isStatic()) {
+          call_user_func(array($class, $method));
+        }
+      }
+    }
+  }
 }
