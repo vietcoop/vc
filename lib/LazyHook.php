@@ -23,6 +23,7 @@ class VcLazyHook {
     foreach (self::$hooks as $hook) {
       $this->buildHook($hook);
     }
+
     if ($this->writeCode()) {
       if (function_exists('apc_compile_file')) {
         $file = drupal_realpath(self::DUMP_FILE);
@@ -33,7 +34,7 @@ class VcLazyHook {
 
   protected function clearCode() {
     // Clear code
-    $kv = new VCKeyValue(COLLECTION);
+    $kv = new VCKeyValue(self::COLLECTION);
     $kv->deleteAll();
 
     // Remove dump file
@@ -52,10 +53,10 @@ class VcLazyHook {
 
   protected function parseData($hook) {
     if (!in_array($hook, self::$hooks)) return FALSE;
-
     foreach (vc_get_module_apis() as $module => $info) {
       $file = drupal_get_path('module', $module);
       $file = DRUPAL_ROOT . '/' . $file . "/config/{$module}.{$hook}.yaml";
+
       if (file_exists($file)) {
         if (!$content = yaml_parse_file($file)) cotinue;
         return array($module, $content);
@@ -72,11 +73,12 @@ class VcLazyHook {
     $code = "  return {$code};";
     $code = "function {$module}_{$hook}() {\n{$code}\n}\n\n";
     $code = "/**\n * Implements hook_permission().\n *\n */\n{$code}";
+
     return $code;
   }
 
   protected function saveCode($hook, $module, $code) {
-    $kv = new VCKeyValue(COLLECTION);
+    $kv = new VCKeyValue(self::COLLECTION);
     return $kv->set("{$module}.{$hook}", $code);
   }
 
