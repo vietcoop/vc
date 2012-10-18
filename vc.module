@@ -100,6 +100,13 @@ function vc_flush_caches() {
   VcLazyHook::execute('flush_caches');
 }
 
+/**
+ * Implements hook_cron().
+ */
+function vc_cron() {
+  VcLazyHook::execute('cron');
+}
+
 
 
 

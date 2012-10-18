@@ -7,7 +7,6 @@
   1. Lazy for static hooks: permission, menu, theme, views, …
   1. Lazy for dynamic hooks: cron, node_*, …
 1. Redis wrapper for PhpRedis.
-1. @TODO: Auto run path/to/module/lib/Cron.php > {ModuleName}Cron->cron*().
 1. @TODO: Callback wrapper, supports annotations.
 
 ### Lazy Load
