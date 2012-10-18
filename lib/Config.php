@@ -6,7 +6,7 @@
 /**
  * Simple configuration class.
  */
-class VCConfig {
+class VcConfig {
   protected $collection;
   protected $key;
   protected $storage;

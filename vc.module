@@ -59,7 +59,7 @@ function vc_conf() {
   static $handler;
 
   if (!$handler) {
-    $handler = new VietcoopConfig();
+    $handler = new VcConfig();
   }
 
   return $handler;
@@ -79,6 +79,9 @@ function vc_get_module_apis($api = 'vc', $reset = FALSE) {
   return ctools_plugin_api_info('vc', $api, '1.0', '1.0');
 }
 
+/**
+ * Tell ctools our hook name.
+ */
 function vc_ctools_plugin_api_hook_name() {
   return 'vc_api';
 }
@@ -96,6 +99,10 @@ function vc_vc_api() {
 function vc_flush_caches() {
   VcLazyHook::execute('flush_caches');
 }
+
+
+
+
 
 
 
