@@ -99,6 +99,12 @@ Supported annotations:
 
 ### Configuration System
 
+Why not just using variable_get/set/del?
+
+Drupal use variable system, load all variables on every pages, make them available
+as a global array. It takes a lot of memory. This is not, it just load the
+configuration value when you need.
+
 Example configuration file in yaml format:
 
     # path/to/module/conf/module_name.yaml
