@@ -107,6 +107,10 @@ class VcLazyHook {
    * @see vc_flush_caches().
    */
   public static function execute($hook) {
+    $args = func_get_args();
+    // Remove $hook from the arguments.
+    unset($args[0]);
+
     foreach (vc_get_module_apis() as $module => $info) {
       $hook = str_replace('_', ' ', $hook);
       $hook = ucwords($hook);
@@ -124,7 +128,7 @@ class VcLazyHook {
 
         $refl = new ReflectionMethod($class, $method);
         if ($refl->isStatic()) {
-          call_user_func(array($class, $method));
+          call_user_func_array(array($class, $method), $args);
         }
       }
     }
