@@ -117,21 +117,6 @@ function vc_vc_api() {
   return array('version' => '1.0');
 }
 
-/**
- * Implements hook_flush_caches().
- */
-function vc_flush_caches() {
-  VcLazyHook::execute('flush_caches');
-}
-
-/**
- * Implements hook_cron().
- */
-function vc_cron() {
-  VcLazyHook::execute('cron');
-}
-
-
 
 
 
