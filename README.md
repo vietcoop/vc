@@ -19,6 +19,11 @@ Your class named `ModuleNameFoo`, vc will be loaded the file in
   - `ModuleNameFoo` -> `/path/to/module_name/lib/Foo.php`
   - `ModuleName_Foo_Bar` -> `/path/to/module_name/lib/Foo/Bar.php`
 
+This lazy loader also supports namespace:
+
+  - If your class is Drupal\vc_example\TryNameSpace()
+  - Your file will be found in /path/to/vc_example/lib/Drupal/vc_example/TryNameSpace.php
+
 ### KeyValue class
 
     <?php

@@ -12,6 +12,30 @@ spl_autoload_register('vc_autoload');
  * Autoloader.
  */
 function vc_autoload($class) {
+  if (strpos($class, 'Drupal\\') === 0) {
+    return vc_autoload_namespace($class);
+  }
+  return vc_autoload_class($class);
+}
+
+/**
+ *
+ * @param type $class
+ */
+function vc_autoload_namespace($class) {
+  $suffix = str_replace('\\', '/', $class) . '.php';
+  foreach (vc_get_module_apis() as $module => $info) {
+    if (strpos($suffix, "Drupal/{$module}/") !== FALSE) {
+      $prefix = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
+      $file = "{$prefix}/lib/{$suffix}";
+      if (file_exists($file)) {
+        require_once $file;
+      }
+    }
+  }
+}
+
+function vc_autoload_class($class) {
   foreach (vc_get_module_apis() as $module => $info) {
     $_module = str_replace('_', ' ', $module);
     $_module = ucwords($_module);

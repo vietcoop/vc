@@ -39,6 +39,9 @@ class VcLazyHook {
 
     // Remove dump file
     drupal_unlink(self::DUMP_FILE);
+
+    // Flush menu cache
+    menu_cache_clear_all();
   }
 
   protected function buildHook($hook) {
