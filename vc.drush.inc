@@ -9,7 +9,7 @@
 function vc_drush_command() {
   $items['vc-lazyhooks-rebuild'] = array(
     'description' => 'Rebuild the lazy-hooks.',
-    'callback' => 'Vc_Core_FlushCaches::actionRebuildLazyHooks',
+    'callback' => 'VcLazyHook::rebuild',
   );
 
   $items['vc-debug-path'] = array(
