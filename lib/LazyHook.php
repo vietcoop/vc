@@ -14,7 +14,7 @@ class VcLazyHook {
    */
   static $hooks = array(
     'entity_info', 'filter_info', 'help', 'menu', 'permission', 'theme',
-    'views_api'
+    'search_api_item_type_info', 'views_api'
   );
 
   public function buildHooks() {
@@ -132,5 +132,11 @@ class VcLazyHook {
         }
       }
     }
+  }
+
+  public static function rebuild() {
+    $lazy = new VcLazyHook();
+    $lazy->buildHooks();
+    drupal_flush_all_caches();
   }
 }
