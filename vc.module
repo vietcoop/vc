@@ -79,14 +79,14 @@ function vc_init() {
  *
  * @see README.txt > Configuration System
  */
-function vc_conf() {
-  static $handler;
+function vc_conf($path) {
+  static $config;
 
-  if (!$handler) {
-    $handler = new VcConfig();
+  if (!$config) {
+    $config = new VcConfig($path);
   }
 
-  return $handler;
+  return $config;
 }
 
 /**
@@ -117,6 +117,27 @@ function vc_vc_api() {
   return array('version' => '1.0');
 }
 
+/**
+ * Cache wrapper function
+ */
+function vc_cache($options = array(), $callback) {
+  $args = func_get_args();
+  unset($args[0], $args[1]);
+
+  $cache_id = 'vc:cache:';
+  $cache_id = substr(md5(serialize($callback) . serialize($args)), 0, 10);
+
+  $bin = isset($options['bin']) ? $options['bin'] : 'cache';
+  $expire = isset($options['expire']) ? $options['expire'] : CACHE_PERMANENT;
+
+  if ($cache = cache_get($cache_id, $bin)) {
+    return $cache->data;
+  }
+
+  $result = call_user_func_array($callback, $args);
+  cache_set($cache_id, $result, $bin, $expire);
+  return $result;
+}
 
 
 
@@ -172,3 +193,4 @@ function langgo_lesson_debug() {
   kpr($terms);
   exit;
 }
+

@@ -7,6 +7,7 @@
   1. Lazy for static hooks: permission, menu, theme, views, …
   1. Lazy for dynamic hooks: cron, node_*, …
 1. Redis wrapper for PhpRedis.
+1. Cache wrapper
 1. @TODO: Callback wrapper, supports annotations.
 
 ### Lazy Load
@@ -101,6 +102,15 @@ Supported annotations:
       return $my_complex_result; // ' Hello  '
     }
 
+### Cache Wrapper
+
+Example cache:
+
+    <?php
+    $options = array('bin' => 'cache', 'expire' => strtotime('+15 minutes));
+    $callback = 'content_maker_cacllback';
+    $content = vc_cache($options, $callback, $a1 = 'foo', $a2 = 'bar');
+
 ### Configuration System
 
 Why not just using variable_get/set/del?
@@ -125,4 +135,4 @@ Example Code:
     vc_conf('module_name.foo')->set('baz');
 
     // Restore default configuration value.
-    vc_conf('module_name._name')->restore();
+    vc_conf('module_name.foo')->restore();
