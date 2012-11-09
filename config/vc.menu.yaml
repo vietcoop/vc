@@ -1,0 +1,6 @@
+admin/config/development/vc-rebuild-lazy-code:
+  title: Rebuild lazy code
+  description: Rebuild lazy code and flush all cache.
+  access arguments: ['administer vc']
+  page callback: Vc_Lazy_Hook::rebuild
+  page arguments: { redirect: 1 }
