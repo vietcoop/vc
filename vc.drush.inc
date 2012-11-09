@@ -7,9 +7,9 @@
  * Define drush command "lm-sql-sync"
  */
 function vc_drush_command() {
-  $items['vc-lazyhooks-rebuild'] = array(
+  $items['vc-cc'] = array(
     'description' => 'Rebuild the lazy-hooks.',
-    'callback' => 'VcLazyHook::rebuild',
+    'callback' => 'Vc_Lazy_Hook::rebuild',
   );
 
   $items['vc-debug-path'] = array(
