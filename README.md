@@ -6,6 +6,7 @@
 1. Lazy hooks:
   1. Lazy for static hooks: permission, menu, theme, views, …
   1. Lazy for dynamic hooks: cron, node_*, …
+1. Lazy content
 1. Redis wrapper for PhpRedis.
 1. Cache wrapper
 1. @TODO: Callback wrapper, supports annotations.
@@ -43,6 +44,12 @@ This lazy loader also supports namespace:
 #### Lazy for dynamic hooks: cron, node_*, …
 
   …
+
+### Lazy content
+
+    <?php
+    $path = drupal_get_path('module', 'vc') . '/vc_example/config/lazy_content/example.yaml';
+    vc_content($path);
 
 ### Redis wrapper
 
@@ -108,7 +115,7 @@ Example cache:
 
     <?php
     $options = array('bin' => 'cache', 'expire' => strtotime('+15 minutes));
-    $callback = 'content_maker_cacllback';
+    $callback = 'content_maker_callback';
     $content = vc_cache($options, $callback, $a1 = 'foo', $a2 = 'bar');
 
 ### Configuration System

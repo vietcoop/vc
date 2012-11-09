@@ -29,9 +29,20 @@ function vc_example_lazy_load() {
  * Callback for /vc_example.
  */
 function vc_example_page_callback($a1 = 'A1') {
-  return $a1;
+  return array(
+    '#theme' => 'item_list',
+    '#items' => array(
+      "Argument 1: " . print_r($a1, TRUE),
+      "Time: " . format_date(time()),
+      "Micro Time: " . microtime(),
+    )
+  );
 }
 
-function vc_debug() {
-  # vc_example_test_lazy_load();
+/**
+ * Try vc_cache().
+ */
+function vc_example_cache() {
+  $result = vc_cache(array(), $callback = 'vc_example_page_callback', $nid = 237, $uid = 123);
+  print_r($result);
 }

@@ -18,6 +18,11 @@ function vc_autoload($class) {
   return vc_autoload_class($class);
 }
 
+$lazy_hook =  drupal_realpath(Vc_Lazy_Hook::DUMP_FILE);
+if (file_exists($lazy_hook)) {
+  include_once $lazy_hook;
+}
+
 /**
  *
  * @param type $class
@@ -67,12 +72,7 @@ function vc_autoload_class($class) {
 /**
  * Implements hook_init().
  */
-function vc_init() {
-  $lazy_hook =  drupal_realpath(VcLazyHook::DUMP_FILE);
-  if (file_exists($lazy_hook)) {
-    include_once $lazy_hook;
-  }
-}
+function vc_init() {}
 
 /**
  * Wrapper function to work with configuration value of a module.
@@ -135,62 +135,17 @@ function vc_cache($options = array(), $callback) {
   }
 
   $result = call_user_func_array($callback, $args);
+
   cache_set($cache_id, $result, $bin, $expire);
   return $result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function langgo_lesson_debug() {
-  $node = node_load(956);
-  kpr($node);
-
-  $terms = '';
-
-  $content_fields = array('body');
-  foreach ($content_fields as $field) {
-    if (isset($node->{$field})) {
-      $field = reset($node->{$field});
-      $field = reset($field);
-      $field = isset($field['safe_value']) ? $field['safe_value'] : $field['value'];
-
-      // error with strip_tags with <br><p> tag. Example: <p>ab</p><p><p>cd</p>
-      // Output:abcd. Correct result should be: ab cd
-      $field = preg_replace('/<br[^>]*>/i',  "<br />\n", $field);
-      $field = preg_replace('/<p[^>]*>/i',   "\n<p>",    $field);
-      $field = preg_replace('/<\/p[^>]*>/i', "</p>\n",   $field);
-
-      $field = filter_xss($field);
-      $field = strip_tags($field);
-      $terms .= $field;
-    }
-  }
-
-  $terms = str_replace(array('&nbsp;', ':', '?', '…', '(', ')', ',', '.', '!', "\n"), ' ', $terms);
-  $terms = strtolower($terms);
-  while (strpos($terms, '  ') !== FALSE) {
-    $terms = str_replace('  ', ' ', $terms);
-  }
-
-  kpr($terms);
-  exit;
+/**
+ * Build lazy content.
+ *
+ * @param string $path
+ * @return type
+ */
+function vc_content($path) {
+  return Vc_Lazy_Content::build($path);
 }
-
