@@ -1,0 +1,41 @@
+# @file: config/lazy_content/example.yaml
+# Render content from this file:
+#
+# // Simple rendering
+# $path = drupal_get_path('module', 'vc_example');
+# $content = vc_content($path . '/config/lazy_content/example.yaml');
+#
+# // Rendering with cache support
+# $path = drupal_get_path('module', 'vc_example');
+# $options = array('expire' => strtotime('+ 20 minutes'));
+# $content = vc_cache($options, 'vc_content', $path);
+
+meta:
+  tokens:
+    var_1:
+      callback: print_r
+      arguments:
+        a1: ['foo', 'bar']
+        a2: 1
+    time:
+      callback: time
+
+# Content will be used of context language is not defined
+und:
+  meta:
+    prebuild:
+      - trim
+    after_build:
+      - xss_admin
+  content: >
+    Built at %time. This is lazy content. Dynamic values: %var_1
+
+#en:
+#  meta:
+#    use token: 0
+#  content: Value in English pages.
+
+vi:
+  meta:
+    use token: 0
+  content: Value used in Vietnamese pages.
