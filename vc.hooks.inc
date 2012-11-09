@@ -60,3 +60,10 @@ function vc_modules_enabled($modules) {
 function vc_modules_installed($modules) {
   Vc_Lazy_Hook::rebuild(TRUE);
 }
+
+/**
+ * Implements hook_modules_disabled().
+ */
+function vc_modules_disabled($modules) {
+  Vc_Lazy_Hook::rebuild(TRUE);
+}
