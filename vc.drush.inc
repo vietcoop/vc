@@ -12,6 +12,11 @@ function vc_drush_command() {
     'callback' => 'Vc_Lazy_Hook::rebuild',
   );
 
+  $items['vc-import-views'] = array(
+    'description' => 'Import all views',
+    'callback' => 'Vc_Import_Views::importAll',
+  );
+
   $items['vc-debug-path'] = array(
     'description' => 'Display info of an menu item',
     'callback' => 'Vc_Debug_Menu::itemInfo',
