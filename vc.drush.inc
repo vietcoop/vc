@@ -17,6 +17,11 @@ function vc_drush_command() {
     'callback' => 'Vc_Import_Views::importAll',
   );
 
+  $items['vc-import-rules'] = array(
+    'description' => 'Import all rules',
+    'callback' => 'Vc_Import_Rules::importAll',
+  );
+
   $items['vc-debug-path'] = array(
     'description' => 'Display info of an menu item',
     'callback' => 'Vc_Debug_Menu::itemInfo',
