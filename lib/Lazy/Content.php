@@ -25,7 +25,6 @@ class Vc_Lazy_Content {
 
   public static function build($file) {
     global $language;
-
     if (!$content = self::parseContent($file)) return FALSE;
 
     $meta = isset($content['meta']) ? $content['meta'] : NULL;
@@ -87,6 +86,10 @@ class Vc_Lazy_Content {
       }
     }
 
+    # kpr($content);
+    # kpr(drupal_render($content['content']));
+    # exit;
+
     return $content;
   }
 
@@ -94,7 +97,7 @@ class Vc_Lazy_Content {
     if (is_string($content)) {
       $find = array_keys($tokens);
       foreach ($tokens as $token => $value) {
-        $content = str_replace("%{$token}", $value, $content);
+        $content = str_replace("%{$token}%", $value, $content);
       }
     }
 

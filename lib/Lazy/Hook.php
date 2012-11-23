@@ -5,7 +5,6 @@
 
 class Vc_Lazy_Hook {
   const COLLECTION = 'vclazy';
-  const DUMP_FILE = 'private://vc.lazyhooks.php';
 
   /**
    * Supported hooks.
@@ -18,6 +17,10 @@ class Vc_Lazy_Hook {
     'search_api_item_type_info', 'views_api'
   );
 
+  public static function dumpFile() {
+    return 'private://'. substr(md5($_SERVER['HTTP_HOST']), 0, 10) .'.vc.lazyhooks.php';
+  }
+
   public function buildHooks() {
     $this->clearCode();
 
@@ -27,7 +30,7 @@ class Vc_Lazy_Hook {
 
     if ($this->writeCode()) {
       if (function_exists('apc_compile_file')) {
-        $file = drupal_realpath(self::DUMP_FILE);
+        $file = drupal_realpath(self::dumpFile());
         apc_compile_file($file);
       }
     }
@@ -39,7 +42,7 @@ class Vc_Lazy_Hook {
     $kv->deleteAll();
 
     // Remove dump file
-    drupal_unlink(self::DUMP_FILE);
+    drupal_unlink(self::dumpFile());
 
     // Flush menu cache
     menu_cache_clear_all();
@@ -64,6 +67,7 @@ class Vc_Lazy_Hook {
     if (!in_array($hook, self::$hooks)) return FALSE;
 
     $results = array();
+
     foreach (vc_get_module_apis() as $module => $info) {
       $file = drupal_get_path('module', $module);
       $file = DRUPAL_ROOT . '/' . $file . "/config/{$module}.{$hook}.yaml";
@@ -106,7 +110,7 @@ class Vc_Lazy_Hook {
     $prefix .= " *\n";
     $prefix .= " */\n\n";
 
-    return file_unmanaged_save_data($prefix . $code, self::DUMP_FILE, FILE_EXISTS_REPLACE);
+    return file_unmanaged_save_data($prefix . $code, self::dumpFile(), FILE_EXISTS_REPLACE);
   }
 
   /**
@@ -146,9 +150,6 @@ class Vc_Lazy_Hook {
   public static function rebuild($redirect = FALSE) {
     $lazy = new Vc_Lazy_Hook();
     $lazy->buildHooks();
-
-    // Run init script
-    vc_init();
 
     // Flush cache
     drupal_flush_all_caches();
