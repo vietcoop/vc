@@ -18,14 +18,13 @@ function vc_autoload($class) {
   return vc_autoload_class($class);
 }
 
-$lazy_hook =  drupal_realpath(Vc_Lazy_Hook::DUMP_FILE);
+$lazy_hook =  drupal_realpath(Vc_Lazy_Hook::dumpFile());
 if (file_exists($lazy_hook)) {
   include_once $lazy_hook;
 }
 
 /**
- *
- * @param type $class
+ * Autoloader for namespace based classes.
  */
 function vc_autoload_namespace($class) {
   $suffix = str_replace('\\', '/', $class) . '.php';
@@ -40,6 +39,9 @@ function vc_autoload_namespace($class) {
   }
 }
 
+/**
+ * Autoloader for non-namespace classes.
+ */
 function vc_autoload_class($class) {
   foreach (vc_get_module_apis() as $module => $info) {
     $_module = str_replace('_', ' ', $module);
@@ -70,11 +72,6 @@ function vc_autoload_class($class) {
 }
 
 /**
- * Implements hook_init().
- */
-function vc_init() {}
-
-/**
  * Wrapper function to work with configuration value of a module.
  *
  * @see README.txt > Configuration System
@@ -99,8 +96,14 @@ function vc_get_module_apis($api = 'vc', $reset = FALSE) {
       unset($cache['vc'][$api]);
     }
   }
+
   ctools_include('plugins');
-  return ctools_plugin_api_info('vc', $api, '1.0', '1.0');
+  $return = ctools_plugin_api_info('vc', $api, '1.0', '1.0');
+
+  // Make sure lazy load alway works
+  $return['vc'] = array('version' => '1.0', 'path' => dirname(__FILE__));
+
+  return $return;
 }
 
 /**
@@ -108,13 +111,6 @@ function vc_get_module_apis($api = 'vc', $reset = FALSE) {
  */
 function vc_ctools_plugin_api_hook_name() {
   return 'vc_api';
-}
-
-/**
- * Implements vc.module\hook_vc_api().
- */
-function vc_vc_api() {
-  return array('version' => '1.0');
 }
 
 /**
@@ -148,4 +144,11 @@ function vc_cache($options = array(), $callback) {
  */
 function vc_content($path) {
   return Vc_Lazy_Content::build($path);
+}
+
+/**
+ * Help function to get global variable.
+ */
+function vc_global($key) {
+  return isset($GLOBALS[$key]) ? $GLOBALS[$key] : NULL;
 }

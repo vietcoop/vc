@@ -2,6 +2,7 @@ name = VC
 version = 7.x-1.0-alpha1
 description = Provide tools for modules.
 core = 7.x
+php = 5.3.7
 package = Viet Coop
 
 dependencies[] = ctools
