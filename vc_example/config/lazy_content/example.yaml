@@ -28,7 +28,7 @@ und:
     after_build:
       - xss_admin
   content: >
-    Built at %time. This is lazy content. Dynamic values: %var_1
+    Built at %time%. This is lazy content. Dynamic values: %var_1%
 
 #en:
 #  meta:
