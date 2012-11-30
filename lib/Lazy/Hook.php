@@ -25,6 +25,10 @@ class Vc_Lazy_Hook {
     $this->clearCode();
 
     foreach (self::$hooks as $hook) {
+      if (function_exists('drush_print_r')) {
+        drush_print_r("Building hook {$hook}");
+      }
+
       $this->buildHook($hook);
     }
 
@@ -42,7 +46,7 @@ class Vc_Lazy_Hook {
     $kv->deleteAll();
 
     // Remove dump file
-    drupal_unlink(self::dumpFile());
+    @drupal_unlink(self::dumpFile());
 
     // Flush menu cache
     menu_cache_clear_all();
