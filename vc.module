@@ -18,6 +18,7 @@ function vc_autoload($class) {
   return vc_autoload_class($class);
 }
 
+include_once dirname(__FILE__) . '/lib/Lazy/Hook.php';
 $lazy_hook =  drupal_realpath(Vc_Lazy_Hook::dumpFile());
 if (file_exists($lazy_hook)) {
   include_once $lazy_hook;
