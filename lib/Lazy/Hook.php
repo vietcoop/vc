@@ -5,6 +5,11 @@
 
 class Vc_Lazy_Hook {
   const COLLECTION = 'vclazy';
+  protected $is_drush = '';
+
+  public function __construct() {
+    $this->is_drush = function_exists('drush_print_r');
+  }
 
   /**
    * Supported hooks.
@@ -22,13 +27,11 @@ class Vc_Lazy_Hook {
   }
 
   public function buildHooks() {
+    if ($this->is_drush) drush_print_r("Rebuilding Lazy hooks…");
+
     $this->clearCode();
 
     foreach (self::$hooks as $hook) {
-      if (function_exists('drush_print_r')) {
-        drush_print_r("Building hook {$hook}");
-      }
-
       $this->buildHook($hook);
     }
 
@@ -38,9 +41,13 @@ class Vc_Lazy_Hook {
         apc_compile_file($file);
       }
     }
+
+    if ($this->is_drush) drush_print_r("Lazy hooks rebuilt.");
   }
 
   protected function clearCode() {
+    if ($this->is_drush) drush_print_r("Clear old code");
+
     // Clear code
     $kv = new VCKeyValue(self::COLLECTION);
     $kv->deleteAll();
@@ -53,6 +60,8 @@ class Vc_Lazy_Hook {
   }
 
   protected function buildHook($hook) {
+    if ($this->is_drush) drush_print_r("Building hook {$hook}");
+
     if ($results = $this->parseData($hook)) {
       foreach ($results as $result) {
         list($module, $data) = $result;
@@ -76,6 +85,8 @@ class Vc_Lazy_Hook {
       $file = drupal_get_path('module', $module);
       $file = DRUPAL_ROOT . '/' . $file . "/config/{$module}.{$hook}.yaml";
       if (file_exists($file)) {
+        if ($this->is_drush) drush_print_r("Found {$file}");
+
         if (!$content = yaml_parse_file($file)) continue;
         $results[] = array($module, $content);
       }
@@ -114,7 +125,15 @@ class Vc_Lazy_Hook {
     $prefix .= " *\n";
     $prefix .= " */\n\n";
 
-    return file_unmanaged_save_data($prefix . $code, self::dumpFile(), FILE_EXISTS_REPLACE);
+    if ($this->is_drush) drush_print_r("Updating " . self::dumpFile());
+
+    $result = file_unmanaged_save_data($prefix . $code, self::dumpFile(), FILE_EXISTS_REPLACE);
+
+    if (!$result) {
+      throw new Exception("Can not write to " . self::dumpFile());
+    }
+
+    return $result;
   }
 
   /**
