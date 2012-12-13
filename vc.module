@@ -15,6 +15,9 @@ function vc_autoload($class) {
   if (strpos($class, 'Drupal\\') === 0) {
     return vc_autoload_namespace($class);
   }
+  elseif (strpos($class, 'Symfony') === 0) {
+    return vc_autoload_namespace_symfony($class);
+  }
   return vc_autoload_class($class);
 }
 
@@ -38,6 +41,14 @@ function vc_autoload_namespace($class) {
       }
     }
   }
+}
+
+/**
+ * Autoloading for Symfony classes.
+ */
+function vc_autoload_namespace_symfony($class) {
+  $class = str_replace('\\', '/', $class);
+  require_once DRUPAL_ROOT . "/sites/all/libraries/{$class}.php";
 }
 
 /**
