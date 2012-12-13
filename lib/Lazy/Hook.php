@@ -23,7 +23,7 @@ class Vc_Lazy_Hook {
   );
 
   public static function dumpFile() {
-    return 'private://'. substr(md5($_SERVER['HTTP_HOST']), 0, 10) .'.vc.lazyhooks.php';
+    return 'private://'. substr(md5(conf_path()), 0, 10) .'.vc.lazyhooks.php';
   }
 
   public function buildHooks() {
@@ -173,9 +173,6 @@ class Vc_Lazy_Hook {
   public static function rebuild($redirect = FALSE) {
     $lazy = new Vc_Lazy_Hook();
     $lazy->buildHooks();
-
-    // Flush cache
-    drupal_flush_all_caches();
 
     if (!empty($redirect)) {
       drupal_goto(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '<front>');
