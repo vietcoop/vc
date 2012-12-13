@@ -164,3 +164,15 @@ function vc_content($path) {
 function vc_global($key) {
   return isset($GLOBALS[$key]) ? $GLOBALS[$key] : NULL;
 }
+
+if (!function_exists('yaml_parse')) {
+  function yaml_parse($string) {
+    $yaml = new Symfony\Component\Yaml\Parser();
+    return $yaml->parse($string);
+  }
+
+  function yaml_parse_file($file) {
+    $yaml = new Symfony\Component\Yaml\Parser();
+    return $yaml->parse(file_get_contents($file));
+  }
+}
