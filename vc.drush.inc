@@ -27,5 +27,10 @@ function vc_drush_command() {
     'callback' => 'Vc_Debug_Menu::itemInfo',
   );
 
+  $items['vc-test'] = array(
+    'description' => 'Test a test',
+    'callback' => 'Vc_Debug_Test::callback',
+  );
+
   return $items;
 }
