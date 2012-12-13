@@ -15,10 +15,14 @@ function vc_autoload($class) {
   if (strpos($class, 'Drupal\\') === 0) {
     return vc_autoload_namespace($class);
   }
-  elseif (strpos($class, 'Symfony') === 0) {
-    return vc_autoload_namespace_symfony($class);
+  elseif (strpos($class, '\\') !== FALSE) {
+    // load class like Symfony\Component\Yaml\Parser in /sites/all/libraries
+    $class = str_replace('\\', '/', $class);
+    require_once DRUPAL_ROOT . "/sites/all/libraries/{$class}.php";
   }
-  return vc_autoload_class($class);
+  else {
+    return vc_autoload_class($class);
+  }
 }
 
 include_once dirname(__FILE__) . '/lib/Lazy/Hook.php';
@@ -41,14 +45,6 @@ function vc_autoload_namespace($class) {
       }
     }
   }
-}
-
-/**
- * Autoloading for Symfony classes.
- */
-function vc_autoload_namespace_symfony($class) {
-  $class = str_replace('\\', '/', $class);
-  require_once DRUPAL_ROOT . "/sites/all/libraries/{$class}.php";
 }
 
 /**
@@ -165,6 +161,9 @@ function vc_global($key) {
   return isset($GLOBALS[$key]) ? $GLOBALS[$key] : NULL;
 }
 
+/**
+ * Legacy for yaml_parse(), yaml_parse_file().
+ */
 if (!function_exists('yaml_parse')) {
   function yaml_parse($string) {
     $yaml = new Symfony\Component\Yaml\Parser();
