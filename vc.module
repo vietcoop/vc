@@ -155,6 +155,29 @@ function vc_content($path) {
 }
 
 /**
+ * Litle wrapper for views_ui
+ */
+function vc_embed_view($options) {
+  $name       = $options['name'];
+  $display_id = !empty($options['display_id']) ? $options['display_id'] : 'default';
+  $path       = !empty($options['path']) ? $options['path'] : NULL;
+
+  $args = func_get_args();
+  array_shift($args); // remove $options
+
+  $view = views_get_view($name);
+  if (!$view || !$view->access($display_id)) {
+    return;
+  }
+
+  if (!empty($path)) {
+    $view->override_path = $path;
+  }
+
+  return $view->preview($display_id, $args);
+}
+
+/**
  * Help function to get global variable.
  */
 function vc_global($key) {
