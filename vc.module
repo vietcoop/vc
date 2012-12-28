@@ -198,3 +198,16 @@ if (!function_exists('yaml_parse')) {
     return $yaml->parse(file_get_contents($file));
   }
 }
+
+/**
+ *
+ * @param type $form
+ * @param type $form_state
+ */
+function vc_form_submit($form, &$form_state) {
+  if (!empty($form['#vc_submit']));
+
+  foreach ($form['#vc_submit'] as $submit) {
+    call_user_func($submit, $form, $form_state);
+  }
+}
