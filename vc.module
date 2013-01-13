@@ -197,6 +197,16 @@ if (!function_exists('yaml_parse')) {
     $yaml = new Symfony\Component\Yaml\Parser();
     return $yaml->parse(file_get_contents($file));
   }
+
+  function yaml_parse_url($url) {
+    $yaml = new Symfony\Component\Yaml\Parser();
+    return $yaml->parse(file_get_contents($url));
+  }
+
+  function yaml_emit($data) {
+    $yaml = new Symfony\Component\Yaml\Dumper();
+    return $dumper->dump($data);
+  }
 }
 
 /**
