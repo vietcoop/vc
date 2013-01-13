@@ -19,6 +19,7 @@ class Vc_Lazy_Hook {
   static $hooks = array(
     'block_info',
     'entity_info', 'filter_info', 'help', 'menu', 'permission', 'theme',
+    'schema',
     'search_api_item_type_info', 'views_api'
   );
 
@@ -46,7 +47,7 @@ class Vc_Lazy_Hook {
   }
 
   protected function clearCode() {
-    if ($this->is_drush) drush_print_r("Clear old code");
+    if ($this->is_drush) drush_print_r(" › Clear old code");
 
     // Clear code
     $kv = new VCKeyValue(self::COLLECTION);
@@ -60,7 +61,7 @@ class Vc_Lazy_Hook {
   }
 
   protected function buildHook($hook) {
-    if ($this->is_drush) drush_print_r("Building hook {$hook}");
+    if ($this->is_drush) drush_print_r(" › Building hook {$hook}");
 
     if ($results = $this->parseData($hook)) {
       foreach ($results as $result) {
@@ -85,7 +86,7 @@ class Vc_Lazy_Hook {
       $file = drupal_get_path('module', $module);
       $file = DRUPAL_ROOT . '/' . $file . "/config/{$module}.{$hook}.yaml";
       if (file_exists($file)) {
-        if ($this->is_drush) drush_print_r("Found {$file}");
+        if ($this->is_drush) drush_print_r("   » Found {$file}");
 
         if (!$content = yaml_parse_file($file)) continue;
         $results[] = array($module, $content);
@@ -125,7 +126,7 @@ class Vc_Lazy_Hook {
     $prefix .= " *\n";
     $prefix .= " */\n\n";
 
-    if ($this->is_drush) drush_print_r("Updating " . self::dumpFile());
+    if ($this->is_drush) drush_print_r(" › Updating " . self::dumpFile());
 
     $result = file_unmanaged_save_data($prefix . $code, self::dumpFile(), FILE_EXISTS_REPLACE);
 

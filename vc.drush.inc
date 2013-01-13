@@ -34,7 +34,12 @@ function vc_drush_command() {
 
   $items['vc-test'] = array(
     'description' => 'Test a test',
-    'callback' => 'Vc_Debug_Test::callback',
+    'callback' => 'VcTest::callback',
+  );
+
+  $items['vc-test-all'] = array(
+    'description' => 'Run all tests',
+    'callback' => 'VcTest::runAllcallback',
   );
 
   return $items;
