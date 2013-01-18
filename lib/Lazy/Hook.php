@@ -20,7 +20,7 @@ class Vc_Lazy_Hook {
     'block_info',
     'entity_info', 'filter_info', 'help', 'menu', 'permission', 'theme',
     'schema',
-    'search_api_item_type_info', 'views_api'
+    'search_api_item_type_info', 'views_api', 'views_data'
   );
 
   public static function dumpFile() {
