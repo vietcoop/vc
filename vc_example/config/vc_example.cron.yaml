@@ -1,0 +1,8 @@
+---
+example cron job:
+  label: Label of cron job
+  description: Demo for lazy cron feature.
+  callback: Vc_Example_Drush_Cron
+  lock: true
+  lock timeout: 300
+...
