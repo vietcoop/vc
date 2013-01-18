@@ -34,12 +34,17 @@ function vc_drush_command() {
 
   $items['vc-test'] = array(
     'description' => 'Test a test',
-    'callback' => 'VcTest::callback',
+    'callback' => 'Vc_Drush_Test::callback',
   );
 
   $items['vc-test-all'] = array(
     'description' => 'Run all tests',
-    'callback' => 'VcTest::runAllcallback',
+    'callback' => 'Vc_Drush_Test::runAllcallback',
+  );
+
+  $items['vc-cron'] = array(
+    'description' => 'Run cron jobs',
+    'callback' => 'Vc_Drush_Cron::callback',
   );
 
   return $items;

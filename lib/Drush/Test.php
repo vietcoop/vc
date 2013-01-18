@@ -1,6 +1,6 @@
 <?php
 
-class VcTest {
+class Vc_Drush_Test {
   public static function callback() {
     $args = drush_get_arguments();
     array_shift($args);
@@ -59,7 +59,7 @@ class VcTest {
       }
     }
 
-    if (method_exists($test, 'setUp')) $test->tearDown();
+    if (method_exists($test, 'tearDown')) $test->tearDown();
 
     drush_print_r('');
   }
