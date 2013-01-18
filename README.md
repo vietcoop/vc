@@ -7,6 +7,7 @@
   1. Lazy for static hooks: permission, menu, theme, views, …
   1. Lazy for dynamic hooks: cron, node_*, …
 1. Lazy content
+1. Lazy cron
 1. Redis wrapper for PhpRedis.
 1. Cache wrapper
 1. @TODO: Callback wrapper, supports annotations.
@@ -50,6 +51,20 @@ This lazy loader also supports namespace:
     <?php
     $path = drupal_get_path('module', 'vc') . '/vc_example/config/lazy_content/example.yaml';
     vc_content($path);
+
+### Lazy cron
+
+Module that implement hook_vc_api() can define a YAML configuration file to list
+the cron jobs that it provides. See vc_example/config/vc_example.cron.yaml for
+supported parameters.
+
+VC.module provides a drush command to run these cron jobs:
+
+    # Run all cron jobs
+    drush vc-cron
+
+    # Run cron jobs in a specific module
+    drush vc-cron vc_examples
 
 ### Redis wrapper
 
