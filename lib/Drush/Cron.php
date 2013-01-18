@@ -12,7 +12,7 @@ class Vc_Drush_Cron {
     return self::runModuleCrons($module);
   }
 
-  protected static function runAll() {
+  public static function runAll() {
     foreach (vc_get_module_apis() as $module => $info) {
       self::runModuleCrons($module);
     }

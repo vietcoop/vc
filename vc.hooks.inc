@@ -9,7 +9,7 @@
  * Implements hook_cron().
  */
 function vc_cron() {
-  Vc_Lazy_Hook::execute('cron');
+  Vc_Drush_Cron::runAll();
 }
 
 /**
