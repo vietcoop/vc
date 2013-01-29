@@ -38,7 +38,7 @@ class Vc_Drush_Cron {
         }
 
         if (is_callable($job['callback'])) {
-          $job['callback']();
+          call_user_func($job['callback']);
         }
         else {
           drush_print_r("      | Callback is not callable: {$job['callback']}");
