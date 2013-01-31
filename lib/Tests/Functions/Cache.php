@@ -19,7 +19,7 @@ class Vc_Tests_Functions_Cache extends Vc_Tests_Base {
 
   public function testObjectCache() {
     $object = new Vc_Tests_Object_Cache();
-    $t1 = vc_cache($object, 'method');
+    $t1 = vc_cache($reset = TRUE, $object, 'method');
     sleep(1);
     $t2 = vc_cache($object, 'method');
     sleep(5);
