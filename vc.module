@@ -58,26 +58,50 @@ function vc_ctools_plugin_api_hook_name() {
 }
 
 /**
- * Cache wrapper function
+ * Wrapper function to cache
  */
-function vc_cache($options = array(), $callback) {
+function vc_cache() {
   $args = func_get_args();
-  unset($args[0], $args[1]);
+  $a1 = array_shift($args);
+  $reset = FALSE;
 
-  $cache_id = 'vc:cache:';
-  $cache_id = substr(md5(serialize($callback) . serialize($args)), 0, 10);
-
-  $bin = isset($options['bin']) ? $options['bin'] : 'cache';
-  $expire = isset($options['expire']) ? $options['expire'] : CACHE_PERMANENT;
-
-  if ($cache = cache_get($cache_id, $bin)) {
-    return $cache->data;
+  if (is_bool($a1)) {
+    $reset = TRUE;
+    $a1 = array_shift($args);
   }
 
-  $result = call_user_func_array($callback, $args);
+  $cache_id = substr(md5(serialize($args)), 0, 10);
 
-  cache_set($cache_id, $result, $bin, $expire);
-  return $result;
+  if (!$reset && $cache = cache_get($cache_id)) {
+    if ($cache->expire == CACHE_PERMANENT) return $cache->data;
+    if ($cache->expire == CACHE_TEMPORARY) return $cache->data;
+    if ($cache->expire >= time()) return $cache->data;
+  }
+
+  $is_function = is_string($a1);
+  $is_object = is_object($a1);
+
+  if (!$is_function && !$is_object) {
+    throw new Exception('Wrong parameter');
+  }
+
+  if ($is_function) {
+    $return = call_user_func_array($a1, $args);
+  }
+  else {
+    $method = array_shift($args);
+    $return = @call_user_method_array($method, $a1, $args);
+  }
+
+  if (!is_null($return)) {
+    if ($is_function) $comment = new ReflectionFunction($a1);
+    if ($is_object)   $comment = new ReflectionObject($a1);
+    $comment = $comment->getDocComment();
+    preg_match('/@ttl\s+(.+)\n/', $comment, $matches);
+    $ttl = !empty($matches) ? strtotime(trim($matches[1], "\r\s'")) : CACHE_PERMANENT;
+    cache_set($cache_id, $return, 'cache', $ttl);
+    return $return;
+  }
 }
 
 /**

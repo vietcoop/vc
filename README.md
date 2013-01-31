@@ -89,11 +89,45 @@ Supported annotations:
 
 #### 1. Cache: …
 
-    <?php
+##### Function cache:
+
+Cache control:
+
     /**
-     * @cache($cid = __FUNCTION__, $bin = 'cache', $expire = '+ 30 minutes')
+     * @ttl '+ 5 seconds'
      */
-    function foo() {}
+    function vc_test_callback() {
+      return time();
+    }
+
+This is direct call:
+
+    function_callback($a1, $a2, $a3);
+
+Call with cache:
+
+    vc_cache('function_callback', $a1, $a2, $a3);
+
+##### Method callback:
+
+Cache control:
+
+class Vc_Tests_Object_Cache {
+  /**
+   * @ttl + 5 seconds
+   */
+  public function method() {
+    return time();
+  }
+}
+
+This is direct call:
+
+    $object->method($a1, $a2, $a3);
+
+Call with cache:
+
+    vc_cache($object, 'method', $a1, $a2, $a3);
 
 #### 2. Queue: …
 
