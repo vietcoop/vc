@@ -63,15 +63,15 @@ function vc_ctools_plugin_api_hook_name() {
 function vc_cache() {
   $args = func_get_args();
   $a1 = array_shift($args);
-  $reset = FALSE;
 
+  // Check reset flag
+  $reset = !empty($_GET['nocache']);
   if (is_bool($a1)) {
     $reset = TRUE;
     $a1 = array_shift($args);
   }
 
   $cache_id = substr(md5(serialize($args)), 0, 10);
-
   if (!$reset && $cache = cache_get($cache_id)) {
     if ($cache->expire == CACHE_PERMANENT) return $cache->data;
     if ($cache->expire == CACHE_TEMPORARY) return $cache->data;
@@ -95,7 +95,10 @@ function vc_cache() {
 
   if (!is_null($return)) {
     if ($is_function) $comment = new ReflectionFunction($a1);
-    if ($is_object)   $comment = new ReflectionObject($a1);
+    if ($is_object) {
+      $comment = new ReflectionObject($a1);
+      $comment = $comment->getMethod($method);
+    }
     $comment = $comment->getDocComment();
     preg_match('/@ttl\s+(.+)\n/', $comment, $matches);
     $ttl = !empty($matches) ? strtotime(trim($matches[1], "\r\s'")) : CACHE_PERMANENT;
