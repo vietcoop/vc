@@ -1,7 +1,7 @@
 <?php
 
 class Vc_Tests_Functions_Cache extends Vc_Tests_Base {
-  public function ___testFunctionCache() {
+  public function testFunctionCache() {
     $t1 = vc_cache($reset = TRUE, 'vc_test_callback');
     sleep(1);
     $t2 = vc_cache('vc_test_callback');
