@@ -1,12 +1,7 @@
 <?php
 
 class Vc_Tests_Functions_Cache extends Vc_Tests_Base {
-  public function __testDebug() {
-    $t1 = vc_cache($reset = TRUE, 'vc_test_callback');
-    $t2 = vc_cache('vc_test_callback');
-  }
-
-  public function testFunctionCache() {
+  public function ___testFunctionCache() {
     $t1 = vc_cache($reset = TRUE, 'vc_test_callback');
     sleep(1);
     $t2 = vc_cache('vc_test_callback');
@@ -22,7 +17,7 @@ class Vc_Tests_Functions_Cache extends Vc_Tests_Base {
     $t1 = vc_cache($reset = TRUE, $object, 'method');
     sleep(1);
     $t2 = vc_cache($object, 'method');
-    sleep(5);
+    sleep(3);
     $t3 = vc_cache($object, 'method');
 
     $this->assertTrue($t1 == $t2, 'Result is cached');
@@ -31,7 +26,7 @@ class Vc_Tests_Functions_Cache extends Vc_Tests_Base {
 }
 
 /**
- * @ttl '+ 5 seconds'
+ * @ttl '+ 3 seconds'
  */
 function vc_test_callback() {
   return time();
@@ -39,7 +34,7 @@ function vc_test_callback() {
 
 class Vc_Tests_Object_Cache {
   /**
-   * @ttl + 5 seconds
+   * @ttl '+ 3 seconds'
    */
   public function method() {
     return time();
