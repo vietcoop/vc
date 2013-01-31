@@ -8,7 +8,6 @@
 # // Rendering with cache support
 # $path = drupal_get_path('module', 'vc_example');
 # $options = array('expire' => strtotime('+ 20 minutes'));
-# $content = vc_cache($options, 'vc_content', $path);
 
 meta:
   tokens:

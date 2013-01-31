@@ -38,11 +38,3 @@ function vc_example_page_callback($a1 = 'A1') {
     )
   );
 }
-
-/**
- * Try vc_cache().
- */
-function vc_example_cache() {
-  $result = vc_cache(array(), $callback = 'vc_example_page_callback', $nid = 237, $uid = 123);
-  print_r($result);
-}
