@@ -27,15 +27,6 @@ This lazy loader also supports namespace:
   - If your class is Drupal\vc_example\TryNameSpace()
   - Your file will be found in /path/to/vc_example/lib/Drupal/vc_example/TryNameSpace.php
 
-### KeyValue class
-
-    <?php
-    $kv = new VCKeyValue($collection = 'my_collection');
-    $kv->set('foo', 'bar');
-    $kv->setMultiple(array('foo' => 'bar', 'baz' => 'foo'));
-    $kv->delete('foo');
-    $kv->deleteMultiple(array('foo', 'baz');
-
 ### Lazy Hooks
 
 #### Lazy for static hooks: permission, menu, theme, views, …
