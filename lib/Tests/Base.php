@@ -4,6 +4,10 @@ class Vc_Tests_Base {
   public $print_status = TRUE;
   public $fail_exit = TRUE;
 
+  public function assert($expression, $msg) {
+    return $this->assertTrue((bool)($expression), $msg);
+  }
+
   public function assertTrue($bool, $msg) {
     if ($this->print_status) {
       $prefix = '     ›';
@@ -19,7 +23,7 @@ class Vc_Tests_Base {
     $this->assertTrue(!$bool, $msg);
   }
 
-  public function assert($expression, $msg) {
-    return $this->assertTrue((bool)($expression), $msg);
+  public function assertNumber($expression, $msg) {
+    $this->assertTrue(is_numeric($expression), $msg);
   }
 }
