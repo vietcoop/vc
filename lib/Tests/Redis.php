@@ -1,6 +1,9 @@
 <?php
 
 class Vc_Tests_Redis extends Vc_Tests_Base {
+  /**
+   * Test the lib for bug this issue https://github.com/nicolasff/phpredis/pull/278
+   */
   public function testSRandMember() {
     $redis = VcRedis::getClient();
     $redis->sAdd('key1' , 'member1');
