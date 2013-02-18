@@ -17,11 +17,12 @@ class Vc_Tests_Base {
         $d = debug_backtrace();
         $d = $d[$backtrace];
         drush_log('-------------------------', 'error');
-        drush_log(' Fail assertion',            'error');
-        drush_log(' File: ' .   $d['file'],     'error');
-        drush_log(' Line: ' .   $d['line'],     'error');
-        drush_log(' Class: ' .  $d['class'],    'error');
-        drush_log(' Method: ' . $d['function'], 'error');
+        drush_log('   Fail assertion',            'error');
+        drush_log('-------------------------', 'error');
+        drush_log('   File: ' .   $d['file'],     'error');
+        drush_log('   Line: ' .   $d['line'],     'error');
+        drush_log('   Class: ' .  $d['class'],    'error');
+        drush_log('   Method: ' . $d['function'], 'error');
         drush_log('-------------------------', 'error');
       }
 
@@ -33,14 +34,15 @@ class Vc_Tests_Base {
 
   public function assertEqual($expected, $actual, $msg = NULL) {
     try {
-      $msg = !empty($msg) ? $msg : "{$expected} = {$actual}";
-      $this->assertTrue($expected === $actual, $msg, $throw = TRUE, $print = TRUE, $backtrace = 1);
+      $msg = !empty($msg) ? $msg : "Expecting: {$expected}";
+      $this->assertTrue($expected == $actual, $msg, $throw = TRUE, $print = TRUE, $backtrace = 1);
     }
     catch (Exception $e) {
       $d = debug_backtrace();
       $d = $d[$backtrace];
-      drush_log(' Exprected: ' .   $expected,   'error');
-      drush_log(' Actual:    ' .   $actual,     'error');
+      drush_log('   Exprected: ' .   $expected,   'error');
+      drush_log('   Actual:    ' .   $actual,     'error');
+      drush_log('-------------------------', 'error');
     }
   }
 
