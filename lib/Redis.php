@@ -88,8 +88,17 @@ class VcRedis {
       $base = isset($conf['redis_client_base']) ? $conf['redis_client_base'] : self::REDIS_DEFAULT_BASE;
       $password = isset($conf['redis_client_password']) ? $conf['redis_client_password'] : self::REDIS_DEFAULT_PASSWORD;
 
-      self::$_client = new Redis;
-      self::$_client->connect($host, $port);
+      if (class_exists('Redis')) {
+        self::$_client = new Redis;
+        self::$_client->connect($host, $port);
+        // Do not allow PhpRedis serialize itself data, we are going to do it
+        // ourself. This will ensure less memory footprint on Redis size when
+        // we will attempt to store small values.
+        self::$_client->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);
+      }
+      else {
+        self::$_client = new \Predis\Client(array('host' => $host, 'port' => $port));
+      }
 
       if (!empty($password)) {
         self::$_client->auth($password);
@@ -98,11 +107,6 @@ class VcRedis {
       if (!empty($base)) {
         self::$_client->select($base);
       }
-
-      // Do not allow PhpRedis serialize itself data, we are going to do it
-      // ourself. This will ensure less memory footprint on Redis size when
-      // we will attempt to store small values.
-      self::$_client->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);
     }
 
     return self::$_client;
