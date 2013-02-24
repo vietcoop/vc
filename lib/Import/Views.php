@@ -5,7 +5,7 @@ class Vc_Import_Views {
     foreach (vc_get_module_apis() as $module => $info) {
       $dir = DRUPAL_ROOT . '/' . drupal_get_path('module', $module) . '/config/views';
       if (is_dir($dir)) {
-        foreach (file_scan_directory($dir, '/\.views\.php$/') as $filename) {
+        foreach (file_scan_directory($dir, '/\.php$/') as $filename) {
           if (function_exists('drush_print_r')) {
             drush_print_r("Imporing {$filename->uri}");
           }
