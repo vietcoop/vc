@@ -181,9 +181,6 @@ if (!function_exists('yaml_parse')) {
 
 /**
  * Wrapper for form validators.
- *
- * @param type $form
- * @param type $form_state
  */
 function vc_form_validate($form, &$form_state) {
   if (empty($form['#vc_validate'])) return;
