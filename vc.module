@@ -128,7 +128,14 @@ function vc_embed_view($options) {
   $args = func_get_args();
   array_shift($args); // remove $options
 
+  if (!empty($options['json'])) {
+    if (module_exists('views_json')) {
+      return $return = views_json_get($name, $display_id, $args);
+    }
+  }
+
   $view = views_get_view($name);
+
   if (!$view || !$view->access($display_id)) {
     return;
   }
@@ -173,9 +180,21 @@ if (!function_exists('yaml_parse')) {
 }
 
 /**
+ * Wrapper for form validators.
  *
  * @param type $form
  * @param type $form_state
+ */
+function vc_form_validate($form, &$form_state) {
+  if (!empty($form['#vc_validate']));
+
+  foreach ($form['#vc_validate'] as $validate) {
+    call_user_func($validate, $form, $form_state);
+  }
+}
+
+/**
+ * Wrapper for form submit callbacks.
  */
 function vc_form_submit($form, &$form_state) {
   if (!empty($form['#vc_submit']));
