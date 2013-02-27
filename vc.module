@@ -186,7 +186,7 @@ if (!function_exists('yaml_parse')) {
  * @param type $form_state
  */
 function vc_form_validate($form, &$form_state) {
-  if (!empty($form['#vc_validate']));
+  if (empty($form['#vc_validate'])) return;
 
   foreach ($form['#vc_validate'] as $validate) {
     call_user_func($validate, $form, $form_state);
@@ -197,7 +197,7 @@ function vc_form_validate($form, &$form_state) {
  * Wrapper for form submit callbacks.
  */
 function vc_form_submit($form, &$form_state) {
-  if (!empty($form['#vc_submit']));
+  if (empty($form['#vc_submit'])) return;
 
   foreach ($form['#vc_submit'] as $submit) {
     call_user_func($submit, $form, $form_state);
