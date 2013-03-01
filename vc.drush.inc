@@ -27,6 +27,11 @@ function vc_drush_command() {
     'callback' => 'Vc_Import_Profile2Types::importAll',
   );
 
+  $items['vc-import-lgentity-levels'] = array(
+    'description' => 'Import all lgentity levels',
+    'callback' => 'Vc_Import_LgentityLevels::importAll',
+  );
+
   $items['vc-debug-path'] = array(
     'description' => 'Display info of an menu item',
     'callback' => 'Vc_Debug_Menu::itemInfo',
