@@ -1,44 +1,38 @@
 <?php
-class Vc_Import_Profile2Types {
+
+class Vc_Import_Profile2Types extends Vc_Import_Entity {
   public static function importAll() {
-    foreach (vc_get_module_apis() as $module => $info) {
-      $dir = DRUPAL_ROOT . '/' . drupal_get_path('module', $module) . '/config/profile2_type/';
-      if (is_dir($dir)) {
-        foreach (file_scan_directory($dir, '/\.json/') as $filename) {
-          if (function_exists('drush_print_r')) {
-            drush_print_r("Imporing {$filename->uri}");
-          }
-          static::import($filename->uri);
-        }
-      }
+    parent::importAll('profile2_type', $extension = 'json');
+  }
+
+  protected function deleteOld($entity_type, $machine_name) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', $entity_type);
+    $query->propertyCondition('type', $machine_name);
+    if ($query = $query->execute()) {
+      $_entity = reset($query);
+      $_entity = reset($_entity);
+      $_entity = entity_load($entity_type, $_entity);
+      $_entity = reset($_entity);
+      $_entity->delete();
     }
   }
 
-  public static function import($filename) {
+  public static function import($filename, $entity_type = 'profile2_type', $extension = 'json') {
     if (!file_exists($filename)) {
       $msg = "File is not existing: {$filename}";
       throw new Exception($msg);
     }
 
-    $type = basename($filename, '.json');
+    // Remove old
+    self::deleteOld($entity_type, $machine_name = basename($filename, '.' . $extension));
 
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'profile2_type');
-    $query->propertyCondition('type', $type);
-    if ($query = $query->execute()) {
-      $old_profile_type = reset($query);
-      $old_profile_type = reset($old_profile_type);
-      $old_profile_type = entity_load('profile2_type', $old_profile_type);
-      $old_profile_type = reset($old_profile_type);
-      $old_profile_type->delete();
+    if ($file = file_get_contents($filename)) {
+      if ($entity = entity_import($entity_type, $file)) {
+        return $entity->save();
+      }
     }
 
-    $file = file_get_contents($filename);
-    $rule = entity_import('profile2_type', $file);
-    if ($rule) {
-      $rule->save();
-    }
-
-    return $rule;
+    return FALSE;
   }
 }
