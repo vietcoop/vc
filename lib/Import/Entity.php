@@ -26,12 +26,10 @@ class Vc_Import_Entity {
     $query->entityCondition('entity_type', $entity_type);
     $query->propertyCondition($name_key, $machine_name);
     if ($query = $query->execute()) {
-      $_entity = reset($query);
-      $_entity = reset($_entity);
-      $_entity = entity_load($entity_type, $_entity);
-      $_entity = reset($_entity);
-      drush_print_r($_entity);
-      # $_entity->delete();
+      $ids = array_keys($query[$entity_type]);
+      foreach (entity_load($entity_type, $ids) as $_entity) {
+        $_entity->delete();
+      }
     }
   }
 
