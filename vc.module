@@ -7,6 +7,7 @@
  * Autoloading…
  */
 include_once dirname(__FILE__) . '/vc.autoload.inc';
+include_once dirname(__FILE__) . '/vc.form.inc';
 
 /**
  * Implements hook_vc_api().
@@ -94,8 +95,17 @@ function vc_cache() {
   }
 
   if (!is_null($return)) {
-    if ($is_function) $comment = new ReflectionFunction($a1);
-    if ($is_object) {
+    if ($is_function) {
+      if (strpos($a1, '::') !== FALSE) {
+        $class = substr($a1, 0, strpos($a1, ':'));
+        $method = substr($a1, strpos($a1, '::') + 2);
+        $comment = new ReflectionMethod($class, $method);
+      }
+      else {
+        $comment = new ReflectionFunction($a1);
+      }
+    }
+    elseif ($is_object) {
       $comment = new ReflectionObject($a1);
       $comment = $comment->getMethod($method);
     }
@@ -176,27 +186,5 @@ if (!function_exists('yaml_parse')) {
   function yaml_emit($data) {
     $yaml = new Symfony\Component\Yaml\Dumper();
     return $dumper->dump($data);
-  }
-}
-
-/**
- * Wrapper for form validators.
- */
-function vc_form_validate($form, &$form_state) {
-  if (empty($form['#vc_validate'])) return;
-
-  foreach ($form['#vc_validate'] as $validate) {
-    call_user_func($validate, $form, $form_state);
-  }
-}
-
-/**
- * Wrapper for form submit callbacks.
- */
-function vc_form_submit($form, &$form_state) {
-  if (empty($form['#vc_submit'])) return;
-
-  foreach ($form['#vc_submit'] as $submit) {
-    call_user_func($submit, $form, $form_state);
   }
 }
