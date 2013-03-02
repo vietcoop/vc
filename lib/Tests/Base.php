@@ -32,6 +32,13 @@ class Vc_Tests_Base {
     }
   }
 
+  /**
+   * Assert equal.
+   * 
+   * @param mixed $expected
+   * @param mixed $actual
+   * @param string $msg
+   */
   public function assertEqual($expected, $actual, $msg = NULL) {
     try {
       $msg = !empty($msg) ? $msg : "Expecting: {$expected}";
@@ -44,6 +51,11 @@ class Vc_Tests_Base {
       drush_log('   Actual:    ' .   $actual,     'error');
       drush_log('-------------------------', 'error');
     }
+  }
+
+  public function assertGreaterThanOrEqual($actual, $expected, $msg) {
+    $msg = !empty($msg) ? $msg : "Expecting: {$actual} >= {$expected}";
+    $this->assertTrue($actual >= $expected, $msg, $throw = TRUE, $print = TRUE, $backtrace = 1);
   }
 
   public function assert($expression, $msg = NULL) {
