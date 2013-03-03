@@ -6,7 +6,7 @@
 /**
  * Lazy hooks
  */
-require_once dirname(__FILE__) . '/lib/Lazy/Hook.php';
+require_once dirname(dirname(__FILE__)) . '/lib/Lazy/Hook.php';
 $lazy_hook =  drupal_realpath(Vc_Lazy_Hook::dumpFile());
 if (file_exists($lazy_hook)) {
   include_once $lazy_hook;

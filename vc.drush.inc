@@ -47,5 +47,15 @@ function vc_drush_command() {
     'callback' => 'Vc_Drush_Cron::callback',
   );
 
+  $items['vc-block-reset'] = array(
+    'description' => 'Reset block settings',
+    'callback' => 'Vc_Drush_Block::resetCallback',
+    'options' => array(
+      'module' => array(
+        'description' => 'Name of module.',
+      ),
+    ),
+  );
+
   return $items;
 }

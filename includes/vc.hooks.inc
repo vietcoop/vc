@@ -6,6 +6,13 @@
  */
 
 /**
+ * Implements hook_vc_api().
+ */
+function vc_vc_api() {
+  return array('api' => '1.0');
+}
+
+/**
  * Implements hook_cron().
  */
 function vc_cron() {
@@ -66,4 +73,11 @@ function vc_modules_installed($modules) {
  */
 function vc_modules_disabled($modules) {
   Vc_Lazy_Hook::rebuild(TRUE);
+}
+
+/**
+ * Tell ctools our hook name.
+ */
+function vc_ctools_plugin_api_hook_name() {
+  return 'vc_api';
 }
