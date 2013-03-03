@@ -42,11 +42,6 @@ function vc_drush_command() {
     'callback' => 'Vc_Drush_Test::callback',
   );
 
-  $items['vc-test-all'] = array(
-    'description' => 'Run all tests',
-    'callback' => 'Vc_Drush_Test::runAllcallback',
-  );
-
   $items['vc-cron'] = array(
     'description' => 'Run cron jobs',
     'callback' => 'Vc_Drush_Cron::callback',

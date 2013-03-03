@@ -5,14 +5,20 @@ class Vc_Drush_Test {
     $args = drush_get_arguments();
     array_shift($args);
 
-    foreach ($args as $test) {
-      static::runTest($test);
+    if (!empty($args)) {
+      foreach ($args as $test) {
+        static::runTest($test);
+      }
+    }
+    else {
+      self::runAllcallback();
     }
   }
 
   public static function runAllcallback() {
     $args = drush_get_arguments();
     array_shift($args);
+
     if (!empty($args)) {
       $module = reset($args);
       if (module_exists($module)) {
