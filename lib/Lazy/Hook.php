@@ -174,7 +174,8 @@ class Vc_Lazy_Hook {
   }
 
   public static function rebuild($redirect = FALSE) {
-    $lazy = new Vc_Lazy_Hook($verbose = drush_get_context('DRUSH_VERBOSE'));
+    $verbose = function_exists('drush_get_context') ? drush_get_context('DRUSH_VERBOSE') : FALSE;
+    $lazy = new Vc_Lazy_Hook($verbose);
     $lazy->buildHooks();
 
     if (!empty($redirect)) {
