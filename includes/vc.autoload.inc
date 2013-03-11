@@ -20,14 +20,26 @@ spl_autoload_register('vc_autoload');
 /**
  * Autoloader.
  */
-function vc_autoload($class) {
+if (!function_exists('vc_autoload')) {
+  function vc_autoload($class, $sites = array('all')) {
+    return _vc_autoload($class, $sites);
+  }
+}
+
+function _vc_autoload($class, $sites = array('all')) {
   if (strpos($class, 'Drupal\\') === 0) {
     return vc_autoload_namespace($class);
   }
   elseif (strpos($class, '\\') !== FALSE) {
     // load class like Symfony\Component\Yaml\Parser in /sites/all/libraries
     $class = str_replace('\\', '/', $class);
-    include_once DRUPAL_ROOT . "/sites/all/libraries/{$class}.php";
+    foreach ($sites as $site) {
+      $file = DRUPAL_ROOT . "/sites/{$site}/libraries/{$class}.php";
+      if (is_file($file)) {
+        include_once $file;
+        return;
+      }
+    }
   }
   else {
     return vc_autoload_class($class);

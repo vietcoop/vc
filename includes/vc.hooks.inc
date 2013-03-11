@@ -22,9 +22,9 @@ function vc_cron() {
 /**
  * Implements hook_flush_caches().
  */
-function vc_flush_caches() {
-  Vc_Lazy_Hook::execute('flush_caches');
-}
+//function vc_flush_caches() {
+//  Vc_Lazy_Hook::execute('flush_caches');
+//}
 
 /**
  * Implements hook_node_view().
