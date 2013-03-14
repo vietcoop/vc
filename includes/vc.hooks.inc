@@ -58,21 +58,21 @@ function vc_node_presave($node) {
  * Implements hook_modules_enabled().
  */
 function vc_modules_enabled($modules) {
-  Vc_Lazy_Hook::rebuild(TRUE);
+  #Vc_Lazy_Hook::rebuild(TRUE);
 }
 
 /**
  * Implements hook_modules_installed().
  */
 function vc_modules_installed($modules) {
-  Vc_Lazy_Hook::rebuild(TRUE);
+  #Vc_Lazy_Hook::rebuild(TRUE);
 }
 
 /**
  * Implements hook_modules_disabled().
  */
 function vc_modules_disabled($modules) {
-  Vc_Lazy_Hook::rebuild(TRUE);
+  #Vc_Lazy_Hook::rebuild(TRUE);
 }
 
 /**
