@@ -58,9 +58,12 @@ function vc_cache() {
 
   $cache_id = substr(md5(serialize($args)), 0, 10);
   if (!$reset && $cache = cache_get($cache_id)) {
-    if ($cache->expire == CACHE_PERMANENT) return $cache->data;
-    if ($cache->expire == CACHE_TEMPORARY) return $cache->data;
-    if ($cache->expire >= time()) return $cache->data;
+    if ($cache->expire == CACHE_PERMANENT) $return = $cache->data;
+    if ($cache->expire == CACHE_TEMPORARY) $return = $cache->data;
+    if ($cache->expire >= time()) $return = $cache->data;
+    if (!empty($return)) {
+      return $return;
+    }
   }
 
   $is_function = is_string($a1);
