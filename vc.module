@@ -47,7 +47,6 @@ function vc_get_module_apis($api = 'vc', $reset = FALSE) {
  */
 function vc_cache() {
   $args = func_get_args();
-  $cid  = substr(md5(serialize($args)), 0, 10);
   $a1   = array_shift($args);
 
   // Check reset flag
@@ -56,6 +55,8 @@ function vc_cache() {
     $reset = TRUE;
     $a1 = array_shift($args);
   }
+
+  $cid  = substr(md5(serialize(array('c' => $a1, 'a' => $args))), 0, 10);
 
   if (!$reset && $cache = cache_get($cid)) {
     if ($cache->expire == CACHE_PERMANENT) $return = $cache->data;
@@ -99,7 +100,7 @@ function vc_cache() {
     $comment = $comment->getDocComment();
     preg_match('/@ttl\s+(.+)\n/', $comment, $matches);
     $ttl = !empty($matches) ? strtotime(trim($matches[1], "\r\s'")) : CACHE_PERMANENT;
-    cache_set($cache_id, $return, 'cache', $ttl);
+    cache_set($cid, $return, 'cache', $ttl);
     return $return;
   }
 }
