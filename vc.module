@@ -47,7 +47,8 @@ function vc_get_module_apis($api = 'vc', $reset = FALSE) {
  */
 function vc_cache() {
   $args = func_get_args();
-  $a1 = array_shift($args);
+  $cid  = substr(md5(serialize($args)), 0, 10);
+  $a1   = array_shift($args);
 
   // Check reset flag
   $reset = !empty($_GET['nocache']);
@@ -56,8 +57,7 @@ function vc_cache() {
     $a1 = array_shift($args);
   }
 
-  $cache_id = substr(md5(serialize($args)), 0, 10);
-  if (!$reset && $cache = cache_get($cache_id)) {
+  if (!$reset && $cache = cache_get($cid)) {
     if ($cache->expire == CACHE_PERMANENT) $return = $cache->data;
     if ($cache->expire == CACHE_TEMPORARY) $return = $cache->data;
     if ($cache->expire >= time()) $return = $cache->data;
