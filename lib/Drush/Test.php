@@ -59,7 +59,7 @@ class Vc_Drush_Test {
         drush_print_r('');
         drush_print_r("  Testing {$method}");
         drush_print_r("  -------");
-        drush_print_r();
+        drush_print_r('');
 
         $test->{$method}();
       }
