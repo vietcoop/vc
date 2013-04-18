@@ -22,17 +22,17 @@ class Vc_Drush_Cron {
     $file = drupal_get_path('module', $module);
     $file = DRUPAL_ROOT . '/' . $file . "/config/{$module}.cron.yaml";
     if (file_exists($file)) {
-      drush_print_r(" › Running cron jobs in {$module} module");
+      function_exists('drush_print_r') && drush_print_r(" › Running cron jobs in {$module} module");
 
       if (!$jobs = yaml_parse_file($file)) continue;
       foreach ($jobs as $name => $job) {
-        drush_print_r("   » Running {$module} › {$name}");
+        function_exists('drush_print_r') && drush_print_r("   » Running {$module} › {$name}");
 
         if (!empty($job['lock'])) {
           $lock_name = md5("vc_cron_{$module}_{$name}");
           $lock_timeout = isset($job['lock timeout']) ? $job['lock timeout'] : 60;
           if (!lock_acquire($lock_name, $lock_timeout)) {
-            drush_print_r("      | An other process is running…");
+            function_exists('drush_print_r') && drush_print_r("      | An other process is running…");
             return;
           }
         }
