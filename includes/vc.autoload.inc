@@ -30,7 +30,8 @@ function _vc_autoload($class, $sites = array('all')) {
   if (strpos($class, 'Drupal\\') === 0) {
     return vc_autoload_namespace($class);
   }
-  elseif (strpos($class, '\\') !== FALSE) {
+
+  if (strpos($class, '\\') !== FALSE) {
     // load class like Symfony\Component\Yaml\Parser in /sites/all/libraries
     $class = str_replace('\\', '/', $class);
     foreach ($sites as $site) {

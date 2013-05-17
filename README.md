@@ -183,3 +183,4 @@ Example Code:
 
     // Restore default configuration value.
     vc_conf('module_name.foo')->restore();
+

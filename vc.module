@@ -118,15 +118,14 @@ function vc_content($path) {
 /**
  * Litle wrapper for views_ui
  */
-function vc_embed_view($options) {
-  $name       = $options['name'];
-  $display_id = !empty($options['display_id']) ? $options['display_id'] : 'default';
-  $path       = !empty($options['path']) ? $options['path'] : NULL;
+function vc_embed_view($o) {
+  $name       = $o['name'];
+  $display_id = !empty($o['display_id']) ? $o['display_id'] : 'default';
 
   $args = func_get_args();
   array_shift($args); // remove $options
 
-  if (!empty($options['json'])) {
+  if (!empty($o['json'])) {
     if (module_exists('views_json')) {
       return $return = views_json_get($name, $display_id, $args);
     }
@@ -138,8 +137,8 @@ function vc_embed_view($options) {
     return;
   }
 
-  if (!empty($path)) {
-    $view->override_path = $path;
+  if ($path = !empty($o['path']) ? $o['path'] : NULL) {
+    $view->url = $view->override_path = $path;
   }
 
   return $view->preview($display_id, $args);
