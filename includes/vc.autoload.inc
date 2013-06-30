@@ -13,11 +13,6 @@ if (file_exists($lazy_hook)) {
 }
 
 /**
- * Register auto loader.
- */
-spl_autoload_register('vc_autoload');
-
-/**
  * Autoloader.
  */
 if (!function_exists('vc_autoload')) {
@@ -25,6 +20,11 @@ if (!function_exists('vc_autoload')) {
     return _vc_autoload($class, $sites);
   }
 }
+
+/**
+ * Register auto loader.
+ */
+spl_autoload_register('vc_autoload'); 
 
 function _vc_autoload($class, $sites = array('all')) {
   if (strpos($class, 'Drupal\\') === 0) {
